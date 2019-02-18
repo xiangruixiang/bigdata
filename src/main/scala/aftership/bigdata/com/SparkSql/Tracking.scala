@@ -35,8 +35,15 @@ object Tracking {
     val sqlProperties = new Properties()
     sqlProperties.load(new FileInputStream("///home/rx.xiang/properties/sql.properties"))
 
+    val databaseProperties = new Properties()
+    databaseProperties.load(new FileInputStream("///home/rx.xiang/properties/database.properties"))
+    val databaseUrl = databaseProperties.getProperty("databaseUrl")
+    val databaseUserName = databaseProperties.getProperty("databaseUserName")
+    val databaseUserPassword = databaseProperties.getProperty("databaseUserPassword")
+    val databaseDriver = databaseProperties.getProperty("databaseDriver")
 
-    println("custom log: ********** crate a temp day with only one day values ************")
+
+      println("custom log: ********** crate a temp day with only one day values ************")
     val day_values_table_temp = sqlProperties.getProperty("day_values_table")
 
     val day_values_table = day_values_table_temp.replace("Target_Date_parameters", "'" + args(0) + "'")
@@ -62,10 +69,10 @@ object Tracking {
 
     //load GreenPlum config
     val tracking_delivery_status_options = Map(
-      "url" -> "jdbc:postgresql://aftership-006.datenode:5432/test", // JDBC url
-      "user" -> "gpadmin",
-      "password" -> "gpadmin",
-      "driver" -> "org.postgresql.Driver",// JDBC driver
+      "url" -> databaseUrl, // JDBC url
+      "user" -> databaseUserName,
+      "password" -> databaseUserPassword,
+      "driver" -> databaseDriver,// JDBC driver
       "dbtable" -> "tracking_delivery_status") // Table name
 
     //write data to GreenPlum
@@ -80,10 +87,10 @@ object Tracking {
 
     //load GreenPlum config
     val tracking_delivery_substatus_options = Map(
-      "url" -> "jdbc:postgresql://aftership-006.datenode:5432/test", // JDBC url
-      "user" -> "gpadmin",
-      "password" -> "gpadmin",
-      "driver" -> "org.postgresql.Driver",// JDBC driver
+      "url" -> databaseUrl, // JDBC url
+      "user" -> databaseUserName,
+      "password" -> databaseUserPassword,
+      "driver" -> databaseDriver,// JDBC driver
       "dbtable" -> "tracking_delivery_substatus") // Table name
 
     println("custom log: ********** Insert data to tables :" + tracking_delivery_substatus)
@@ -97,10 +104,10 @@ object Tracking {
 
     //load GreenPlum config
     val tracking_transit_day_options = Map(
-      "url" -> "jdbc:postgresql://aftership-006.datenode:5432/test", // JDBC url
-      "user" -> "gpadmin",
-      "password" -> "gpadmin",
-      "driver" -> "org.postgresql.Driver",// JDBC driver
+      "url" -> databaseUrl, // JDBC url
+      "user" -> databaseUserName,
+      "password" -> databaseUserPassword,
+      "driver" -> databaseDriver,// JDBC driver
       "dbtable" -> "tracking_transit_day") // Table name
 
     println("custom log: ********** Insert data to tables :" + tracking_transit_day)
