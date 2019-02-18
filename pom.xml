@@ -13,6 +13,12 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <spark.version>2.3.1</spark.version>
+    <hadoop.version>2.7.3</hadoop.version>
+    <encoding>UTF-8</encoding>
+    <scala.version>2.11</scala.version>
+    <kafka.version>0.10.1</kafka.version>
+    <flink.version>1.5.0</flink.version>
   </properties>
 
   <dependencyManagement>
@@ -29,6 +35,97 @@
   </dependencyManagement>
 
   <dependencies>
+
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-core_${scala.version}</artifactId>
+      <version>${spark.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-hive_${scala.version}</artifactId>
+      <version>${spark.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-sql_${scala.version}</artifactId>
+      <version>${spark.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-streaming_2.11</artifactId>
+      <version>${spark.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-streaming-kafka-0-10_2.11</artifactId>
+      <version>${spark.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-mllib_${scala.version}</artifactId>
+      <version>${spark.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.2.15</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.6.0</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>2.6.0</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>2.6.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpcore</artifactId>
+      <version>4.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-util</artifactId>
+      <version>9.3.7.v20160115</version>
+    </dependency>
+
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.40</version>
+    </dependency>
+
 
     <dependency>
       <groupId>org.apache.camel</groupId>
@@ -68,15 +165,99 @@
       <scope>runtime</scope>
     </dependency>
 
+    <!-- scala -->
+    <dependency>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-library</artifactId>
+      <version>2.11.7</version>
+    </dependency>
+    <dependency>
+      <groupId>org.scala-lang.modules</groupId>
+      <artifactId>scala-xml_2.11</artifactId>
+      <version>1.0.6</version>
+    </dependency>
+
+    <!-- logging -->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
     <!-- testing -->
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-test</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-core</artifactId>
+      <version>2.23.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-core</artifactId>
+      <version>2.23.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-core</artifactId>
+      <version>2.23.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-core</artifactId>
+      <version>2.23.0</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.json/json -->
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20170516</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.3.4</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>com.google.cloud.sql</groupId>
+      <artifactId>mysql-socket-factory</artifactId>
+      <version>1.0.11</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-storage</artifactId>
+      <version>1.59.0</version>
+    </dependency>
+
+
+
   </dependencies>
 
   <build>
+    <finalName>sparksql</finalName>
     <defaultGoal>install</defaultGoal>
     <sourceDirectory>src/main/scala</sourceDirectory>
     <testSourceDirectory>src/test/scala</testSourceDirectory>
