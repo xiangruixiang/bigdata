@@ -8,7 +8,7 @@ import java.util.{Date, Properties}
 
 object Tracking {
 
-  val call = new functions()
+  //val call = new functions()
 
   def main(args: Array[String]): Unit = {
 
