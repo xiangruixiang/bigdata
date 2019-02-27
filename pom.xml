@@ -252,6 +252,50 @@
       <version>1.59.0</version>
     </dependency>
 
+    <!---  google  -->
+
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-pubsub</artifactId>
+      <version>1.49.0</version>
+    </dependency>
+
+
+    <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+    <dependency>
+      <groupId>com.google.protobuf</groupId>
+      <artifactId>protobuf-java</artifactId>
+      <version>3.3.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>23.6-jre</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpcore</artifactId>
+      <version>4.4.8</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongo-java-driver</artifactId>
+      <version>3.4.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>bson</artifactId>
+      <version>3.4.2</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.2.31</version>
+    </dependency>
 
 
   </dependencies>
