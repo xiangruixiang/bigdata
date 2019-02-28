@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GoogleOperatoin {
 
-    public static void publishMessages(String message, String projectId, String topic) throws Exception {
+    public static void publishMessages(List<String> messages, String projectId, String topic) throws Exception {
         // [START pubsub_publish]
         // Your Google Cloud Platform project ID
        // String projectId = ServiceOptions.getDefaultProjectId();
@@ -35,26 +35,26 @@ public class GoogleOperatoin {
            // List<String> messages = Arrays.asList("first message", "second message");
 
             // schedule publishing one message at a time : messages get automatically batched
-            //for (String message : messages) {
+            for (String message : messages) {
                 ByteString data = ByteString.copyFromUtf8(message);
                 PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
 
                 // Once published, returns a server-assigned message id (unique within the topic)
                 ApiFuture<String> messageIdFuture = publisher.publish(pubsubMessage);
                 messageIdFutures.add(messageIdFuture);
-           // }
+            }
         } finally {
             // wait on any pending publish requests.
             List<String> messageIds = ApiFutures.allAsList(messageIdFutures).get();
 
-            for (String messageId : messageIds) {
+/*            for (String messageId : messageIds) {
                 System.out.println("published with message ID: " + messageId);
-            }
+            }*/
 
             if (publisher != null) {
                 // When finished with the publisher, shutdown to free up resources.
                 publisher.shutdown();
-                publisher.awaitTermination(1, TimeUnit.MINUTES);
+               // publisher.awaitTermination(1, TimeUnit.MINUTES);
             }
         }
         // [END pubsub_publish]

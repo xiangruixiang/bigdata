@@ -40,7 +40,7 @@ public class MongodbCRUD {
             MongoCollection<Document> collection = mongoDatabase.getCollection("trackings_2018_03");
             // System.out.println("choose collection successfully ");
 
-            searchTime = "2018-03-02 01:32:21";  //init date
+            searchTime = "2018-03-02 14:16:09";  //init date
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//set date format
             SimpleDateFormat timer = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//set date format
             Date date =df.parse(searchTime);   //convert to date
@@ -50,10 +50,10 @@ public class MongodbCRUD {
             String sourceTimeEnd="";
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS'Z'");
             BasicDBObject query = new BasicDBObject();
+            List<String> dataList = new ArrayList<>();
+            String jsonStr="";
 
             while (true){
-
-                System.out.println("begin time is :" + timer.format(new Date()));
 
                 date.setTime(date.getTime() + 1000);
                 searchTime = df.format(date);
@@ -61,7 +61,7 @@ public class MongodbCRUD {
                 sourceTimeBegin = searchTime.toString() + ".000Z";
                 sourceTimeEnd = searchTime.toString() + ".999Z";
 
-                System.out.println("Search time is:" + sourceTimeBegin);
+                System.out.println("use time is:" + sourceTimeBegin);
 
                 // add query conditions
               /*  Pattern pattern = Pattern.compile("^.*" + searchTime + ".*$", Pattern.CASE_INSENSITIVE);
@@ -74,11 +74,12 @@ public class MongodbCRUD {
 
                 query.put("updated_at", BasicDBObjectBuilder.start("$gte", startDate).add("$lt",endDate).get());
 
+                System.out.println("Search begin time is :" + timer.format(new Date()));
 
                 //execute query
                 FindIterable<Document> findIterable = collection.find(query
                 )                  //search condition
-                .projection(fields(include("tracking_number", "user_id", "updated_at","created_at"
+                .projection(fields(include("_id", "tracking_number", "user_id", "updated_at","created_at"
                         , "subtag", "tag"
                                 ),
                                 excludeId()));
@@ -88,6 +89,7 @@ public class MongodbCRUD {
                 //loop output data
                 while(mongoCursor.hasNext()){
                     Document json = mongoCursor.next();
+                    mapMessage.put("_id", json.getString("_id"));
                     mapMessage.put("tracking_number", json.getString("tracking_number"));
                     mapMessage.put("user_id", json.get("user_id").toString());
                     mapMessage.put("updated_at", json.get("updated_at").toString());
@@ -96,17 +98,20 @@ public class MongodbCRUD {
                     mapMessage.put("tag", json.get("tag").toString());
                     mapMessage.put("insert_time",System.currentTimeMillis()/1000);
 
-                    String jsonStr = JSON.toJSONString(mapMessage);
+                    jsonStr = JSON.toJSONString(mapMessage);
                     mapMessage.clear();
 
-                    System.out.println("输出的结果是：" + jsonStr);
+                    System.out.println("output data is：" + jsonStr);
 
-                    GoogleOperatoin.publishMessages(jsonStr, GCPprojectId, GCPtopic);
-
+                    dataList.add(jsonStr); //add to list
                 }
 
-                query.clear();
-                System.out.println("end time is :" + timer.format(new Date()));
+                //send to publish
+                GoogleOperatoin.publishMessages(dataList, GCPprojectId, GCPtopic);
+
+                query.clear();  //clear search condition
+                dataList.clear();   //clear data list
+                System.out.println("Search end time is :" + timer.format(new Date()));
 
             }
         }catch(Exception e){
