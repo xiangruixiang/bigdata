@@ -60,16 +60,17 @@ public class GoogleOperatoin {
         // [END pubsub_publish]
     }
 
-    public static void publishMessagesWithErrorHandler() throws Exception {
+    public static void publishMessagesWithErrorHandler(List<String> messages, String projectId, String topic) throws Exception {
         // [START pubsub_publish_error_handler]
-        ProjectTopicName topicName = ProjectTopicName.of("my-project-id", "my-topic-id");
+        ProjectTopicName topicName = ProjectTopicName.of(projectId, topic);
         Publisher publisher = null;
+        List<ApiFuture<String>> messageIdFutures = new ArrayList<>();
 
         try {
             // Create a publisher instance with default settings bound to the topic
             publisher = Publisher.newBuilder(topicName).build();
 
-            List<String> messages = Arrays.asList("first message", "second message");
+           // List<String> messages = Arrays.asList("first message", "second message");
 
             for (final String message : messages) {
                 ByteString data = ByteString.copyFromUtf8(message);
@@ -97,7 +98,7 @@ public class GoogleOperatoin {
                             @Override
                             public void onSuccess(String messageId) {
                                 // Once published, returns server-assigned message ids (unique within the topic)
-                                System.out.println(messageId);
+                                // System.out.println(messageId);
                             }
                         },
                         MoreExecutors.directExecutor());
